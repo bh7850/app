@@ -1,0 +1,218 @@
+<<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Liquor Delivery App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: white;
+    }
+
+    header {
+      background-color: #d61616;
+      color: #080808;
+      padding: 15px;
+      text-align: center;
+    }
+
+    .section {
+      padding: 20px;
+      background-color: #080808;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h2 {
+      color: white;
+      text-align: center;
+    }
+
+    .product-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    .product {
+      background: white;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      flex: 1 1 250px;
+      max-width: 300px;
+      text-align: center;
+    }
+
+    .product img {
+      width: 100%;
+      height: 200px;
+      object-fit: contain;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 10px 10px;
+      background: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    #cart {
+      background: white;
+      padding: 20px;
+      border-top: 2px solid #ccc;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    #location {
+      font-size: 14px;
+      margin-top: 10px;
+      color: rgb(225, 232, 235);
+      text-align: center;
+    }
+
+    #c2 {
+      color: black;
+    }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 768px) {
+      .product-grid {
+        gap: 10px;
+      }
+
+      .product {
+        flex: 1 1 45%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .product {
+        flex: 1 1 100%;
+      }
+
+      .product img {
+        height: 150px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Liquor + Food Delivery</h1>
+</header>
+
+<div class="section">
+  <h2>Liquor</h2>
+  <div class="product-grid">
+    <div class="product">
+      <img src="./whisky-glass-bottle-wooden-table.jpg" alt="Whiskey">
+      <h3>Whiskey</h3>
+      <p>₹1500</p>
+      <button onclick="addToCart('Whiskey', 1500)">Add</button>
+    </div>
+    <div class="product">
+      <img src="./photo-1569529465841-dfecdab7503b.avif" alt="Vodka">
+      <h3>Vodka</h3>
+      <p>₹1300</p>
+      <button onclick="addToCart('Vodka', 1300)">Add</button>
+    </div>
+    <div class="product">
+      <img src="./alcoholic-drink-bottle.jpg" alt="Rum">
+      <h3>Rum</h3>
+      <p>₹1300</p>
+      <button onclick="addToCart('Rum', 1300)">Add</button>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>Food & Accessories</h2>
+  <div class="product-grid">
+    <div class="product">
+      <img src="./istockphoto-1322439549-1024x1024.jpg".alt="Chicken 65">
+      <h3>Chicken 65</h3>
+      <p>₹250</p>
+      <button onclick="addToCart('Chicken 65', 250)">Add</button>
+    </div>
+    <div class="product">
+      <img src="./ch.jpg" alt="Glasses">
+      <h3>Chicken</h3>
+      <p>₹100</p>
+      <button onclick="addToCart('Glasses', 100)">Add</button>
+    </div>
+    <div class="product">
+      <img src="./ba.jpg" alt="Water Bottle">
+      <h3>Water Bottle</h3>
+      <p>₹30</p>
+      <button onclick="addToCart('Water Bottle', 30)">Add</button>
+    </div>
+  </div>
+</div>
+
+<div id="cart">
+  <h2 id="c2">Cart</h2>
+  <ul id="cart-items"></ul>
+  <p><strong>Total:</strong> ₹<span id="total">0</span></p>
+</div>
+
+<div class="section">
+  <h2>Your Location</h2>
+  <div style="text-align: center;">
+    <button onclick="getLocation()">Get My Location</button>
+    <p id="location">Location not fetched yet.</p>
+  </div>
+</div>
+
+<script>
+  let cart = [];
+  let total = 0;
+
+  function addToCart(item, price) {
+    cart.push({ item, price });
+    total += price;
+    updateCart();
+  }
+
+  function updateCart() {
+    const list = document.getElementById("cart-items");
+    list.innerHTML = "";
+    cart.forEach((p) => {
+      const li = document.createElement("li");
+      li.textContent = `${p.item} - ₹${p.price}`;
+      list.appendChild(li);
+    });
+    document.getElementById("total").textContent = total;
+  }
+
+  function getLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          document.getElementById("location").textContent =
+            `Latitude: ${position.coords.latitude}, Longitude: ${position.coords.longitude}`;
+        },
+        () => {
+          document.getElementById("location").textContent =
+            "Unable to retrieve location.";
+        }
+      );
+    } else {
+      document.getElementById("location").textContent =
+        "Geolocation not supported.";
+    }
+  }
+</script>
+
+</body>
+</html>
